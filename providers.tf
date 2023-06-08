@@ -15,6 +15,6 @@ terraform {
  }
 
  resource "azurerm_resource_group" "test" {
-   name     = "vincent-TP-jenkins"
+   name     = "vincent-TP-jenkins01"
    location = "westeurope"
  }
