@@ -31,5 +31,19 @@ pipeline {
         }
       }
     }
-  }  
   }
+
+  post {
+    always {
+      cleanWs()
+    }
+
+    success {
+      echo 'Deployment completed successfully.'
+    }
+
+    failure {
+      echo 'Deployment failed.'
+    }
+  }
+}
