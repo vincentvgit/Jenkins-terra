@@ -1,25 +1,35 @@
-pipeline{
-    agent any
-    
-    stages{
-        stage("terraform init"){
-            steps{
-                echo "========executing A========"
-                sh 'terraform init'
-            }
-            
+pipeline {
+  agent any
+
+  stages {
+    stage('Checkout') {
+      steps {
+        git 'https://github.com/vincentvgit/Jenkins-terra.git'
+      }
+    }
+
+    stage('Terraform Init') {
+      steps {
+        withCredentials([azureServicePrincipal('azure')]) {
+          sh 'terraform init'
         }
+      }
     }
-    stage(plan){
-        steps{
-            sh 'terraform plan'
+
+    stage('Terraform Plan') {
+      steps {
+        withCredentials([azureServicePrincipal('azure')]) {
+          sh 'terraform plan'
         }
+      }
     }
-    
-    stage("terraform apply"){
-        steps{
-            sh 'terraform apply --auto-approve'
+
+    stage('Terraform Appply') {
+      steps {
+        withCredentials([azureServicePrincipal('azure')]) {
+          sh 'terraform apply -auto-approve'
         }
+      }
     }
-    
-    }
+  }  
+  }
